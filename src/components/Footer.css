@@ -1,0 +1,10 @@
+.footer {
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 20px 5%;
+  text-align: center;
+  margin-top: auto;
+}
+
+.footer-content p { margin-bottom: 10px; opacity: 0.8; }
+.footer-content span { font-size: 0.8rem; margin: 0 5px; }

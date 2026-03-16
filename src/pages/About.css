@@ -1,0 +1,95 @@
+.about-page {
+  padding: 80px 8%;
+  background: linear-gradient(to right, #f8fafc, #eef2ff);
+}
+
+.about-hero {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  margin-bottom: 70px;
+  animation: fadeIn 1s ease;
+}
+
+.about-content h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+.about-content p {
+  line-height: 1.8;
+  color: #475569;
+}
+
+.about-hero img {
+  width: 450px;
+  border-radius: 15px;
+  transition: 0.4s;
+}
+
+.about-hero img:hover {
+  transform: scale(1.05);
+}
+
+.mission-vision {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+.box {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  transition: 0.4s;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.box:hover {
+  transform: translateY(-10px);
+}
+
+.icon {
+  font-size: 40px;
+}
+
+.extra-section {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.extra-box {
+  padding: 25px;
+  background: #2563eb;
+  color: white;
+  border-radius: 10px;
+  transition: 0.4s;
+}
+
+.extra-box:hover {
+  background: #1d4ed8;
+}
+
+@media(max-width:768px){
+  .about-hero {
+    flex-direction: column;
+  }
+
+  .mission-vision,
+  .extra-section {
+    flex-direction: column;
+  }
+
+  .about-hero img {
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}

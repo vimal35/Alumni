@@ -1,0 +1,84 @@
+/* --- GENERAL PAGE LAYOUT --- */
+.page-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header { text-align: center; margin-bottom: 40px; }
+.section-header h1 { font-size: 2.5rem; color: #2c3e50; margin-bottom: 10px; }
+.underline { width: 80px; height: 4px; background: #3498db; margin: 0 auto; border-radius: 2px; }
+
+/* --- HOME SPECIFIC --- */
+.hero-home { 
+  text-align: center; 
+  background: white; 
+  padding: 80px 20px; 
+  border-radius: 20px; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.hero-text h1 { font-size: 3rem; color: #2c3e50; margin-bottom: 15px; }
+.hero-text p { font-size: 1.2rem; color: #7f8c8d; margin-bottom: 30px; }
+
+.cta-button {
+  display: inline-block;
+  padding: 15px 40px;
+  background: #2c3e50;
+  color: white;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: 0.3s;
+}
+
+.cta-button:hover { background: #3498db; transform: scale(1.05); }
+
+.circle-bg {
+  width: 300px; height: 300px; background: #eefbff; border-radius: 50%; margin: 40px auto;
+}
+
+/* --- ABOUT GRID --- */
+.about-page .info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: white; padding: 30px; border-radius: 10px; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+  border-top: 5px solid #3498db; transition: 0.3s;
+}
+.card:hover { transform: translateY(-5px); }
+.card h3 { color: #2c3e50; margin-bottom: 10px; }
+
+/* --- CONTACT LAYOUT --- */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.contact-info-box {
+  background: white; padding: 40px; border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.contact-info-box ul li { margin-bottom: 15px; font-size: 1.1rem; }
+.map-placeholder { background: #ddd; height: 350px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #666; }
+
+/* --- REGISTER FORM OVERALL STYLES --- */
+.register-page h2 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+.fieldset { border: none; padding: 0; margin-bottom: 25px; position: relative; }
+input:focus { outline: 2px solid #3498db; }
+
+@media(max-width: 768px) {
+  .contact-layout { grid-template-columns: 1fr; }
+  .hero-text h1 { font-size: 2rem; }
+}

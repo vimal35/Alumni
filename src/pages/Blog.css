@@ -1,0 +1,68 @@
+.blog-page {
+  padding: 80px 8%;
+  background: #f8fafc;
+}
+
+.blog-page h1 {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.blog-card {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 80px;
+  align-items: center;
+  animation: fadeIn 1s ease;
+}
+
+.blog-card.reverse {
+  flex-direction: row-reverse;
+}
+
+.blog-card img {
+  width: 45%;
+  border-radius: 15px;
+  transition: 0.4s;
+}
+
+.blog-card img:hover {
+  transform: scale(1.05);
+}
+
+.blog-content {
+  width: 55%;
+}
+
+.blog-content h2 {
+  margin-bottom: 15px;
+}
+
+.blog-content ul {
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+.blog-content li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .blog-card {
+    flex-direction: column;
+  }
+
+  .blog-card.reverse {
+    flex-direction: column;
+  }
+
+  .blog-card img,
+  .blog-content {
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(30px);}
+  to {opacity: 1; transform: translateY(0);}
+}

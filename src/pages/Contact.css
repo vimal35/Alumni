@@ -1,0 +1,70 @@
+.contact-page {
+  padding: 80px 8%;
+  background: linear-gradient(to right,#eef2ff,#f8fafc);
+}
+
+.contact-page h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.org-info {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.map-container {
+  margin-bottom: 40px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.social-buttons {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.social-buttons a {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 10px 20px;
+  background: #2563eb;
+  color: white;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.social-buttons a:hover {
+  background: #1e40af;
+  transform: translateY(-5px);
+}
+
+.contact-persons {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 25px;
+}
+
+.person-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  transition: 0.3s;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+}
+
+.person-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(37,99,235,0.25);
+}
+
+@media(max-width:768px){
+  .contact-persons{
+    grid-template-columns:1fr;
+  }
+}

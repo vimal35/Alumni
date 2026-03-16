@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar {
+  width: 100%;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* LOGO */
+.logo a {
+  font-size: 22px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #1e293b;
+}
+
+.logo span {
+  color: #2563eb;
+}
+
+/* NAV LINKS */
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 25px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #2563eb;
+}
+
+/* BUTTONS */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.login-btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #2563eb;
+  color: white;
+}
+
+.register-btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  background: linear-gradient(135deg,#2563eb,#1d4ed8);
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(37,99,235,0.4);
+}
+
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #1e293b;
+  border-radius: 2px;
+}
+
+/* MOBILE */
+@media (max-width: 992px) {
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    right: -100%;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    padding: 25px;
+    transition: 0.4s;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  }
+
+  .nav-links.open {
+    right: 0;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .login-btn,
+  .register-btn {
+    text-align: center;
+  }
+}

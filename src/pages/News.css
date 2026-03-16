@@ -1,0 +1,28 @@
+.news-page {
+  padding: 80px 8%;
+  background: #f8fafc;
+}
+
+.news-page h1 {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 25px;
+}
+
+.news-card {
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  transition: 0.4s;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+}
+
+.news-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(37,99,235,0.2);
+}

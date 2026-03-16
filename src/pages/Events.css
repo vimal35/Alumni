@@ -1,0 +1,55 @@
+.events-page {
+  padding: 80px 8%;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.event-card {
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  transition: 0.4s;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+}
+
+.event-card:hover {
+  transform: translateY(-10px);
+}
+
+.event-card button {
+  margin-top: 15px;
+  padding: 8px 15px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.event-details {
+  display: flex;
+  gap: 40px;
+  margin-top: 100px;
+  align-items: center;
+}
+
+.event-details img {
+  width: 450px;
+  border-radius: 15px;
+}
+
+@media(max-width:768px){
+  .event-details{
+    flex-direction: column;
+  }
+  .event-details img{
+    width:100%;
+  }
+}
