@@ -1,125 +1,173 @@
 // components/ApprovalAdmin.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getApprovedAlumni, markPaymentLinkSent } from "../utils/localStorage";
+import { 
+  getPendingAlumni, 
+  updateAlumniStatus, 
+  generateAlumniId,
+  rejectAlumniApplication
+} from "../utils/localStorage";
 import "./ApprovalAdmin.css";
 
 const ApprovalAdmin = () => {
-  const [approvedAlumni, setApprovedAlumni] = useState([]);
+  const [applications, setApplications] = useState([]);
   const [loadingId, setLoadingId] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    loadApprovedAlumni();
+    loadApplications();
   }, []);
 
-  const loadApprovedAlumni = () => {
-    let records = getApprovedAlumni();
+  const loadApplications = () => {
+    let records = getPendingAlumni();
 
-    // Sort by approval date
+    // Sort newest application first always
     records.sort((a, b) => {
-      const dateA = new Date(a.approvalDate || a.updatedAt || 0);
-      const dateB = new Date(b.approvalDate || b.updatedAt || 0);
-      return dateA - dateB;
+      const dateA = new Date(a.updatedAt || a.createdAt || 0);
+      const dateB = new Date(b.updatedAt || b.createdAt || 0);
+      return dateB - dateA;
     });
 
-    // Generate Alumni ID starting from ADLINK-00001
-    records = records.map((item, index) => {
-      return {
-        ...item,
-        alumniId: `ADLINK-${String(index + 1).padStart(5, "0")}`,
-      };
-    });
-
-    setApprovedAlumni(records);
+    setApplications(records);
   };
 
   const normalizePhoneNumber = (phone) => {
     if (!phone) return "";
     let cleaned = String(phone).replace(/\D/g, "");
-    if (cleaned.length === 10) {
-      cleaned = `91${cleaned}`;
-    }
+    if (cleaned.length === 10) cleaned = `91${cleaned}`;
     return cleaned;
   };
 
-  const getPaymentLinkMessage = (alumni) => {
-    const paymentLink = `https://your-college-portal.com/alumni/payment/${alumni.id}`;
+  // ==============================
+  // Professional Message Templates
+  // Edit all content here easily
+  // ==============================
+  const messageTemplates = {
+    verification: (applicant) => `
+Alumni Application Update
 
-    return `Alumni Membership Payment
+Dear ${applicant.name},
 
-Dear ${alumni.name},
+Thank you for registering for our official alumni association.
+This is to confirm that we have received your application, and it is now under official verification by our team.
 
-Your alumni registration has been approved.
+Application Reference: ${applicant.id}
+Course: ${applicant.course}
+Batch: ${applicant.batchYear}
 
-Alumni ID: ${alumni.alumniId}
-Course: ${alumni.course}
-Batch: ${alumni.batchYear}
+We will notify you immediately once our review is completed.
 
-Payment Link:
-${paymentLink}
+Regards
+Alumni Relations Team
+College Name
+`.trim(),
 
-Thank you
-Alumni Relations Team`;
+    approved: (applicant) => `
+✅ Application Approved
+
+Dear ${applicant.name},
+
+Great news! Your alumni membership application has been successfully verified and approved.
+
+We are delighted to welcome you to the alumni community.
+
+Your Permanent Alumni ID: ${applicant.alumniId}
+Course: ${applicant.course}
+Batch: ${applicant.batchYear}
+
+You will receive a separate message shortly with the membership fee payment link.
+
+Please let us know if you have any questions.
+
+Warm regards
+Alumni Relations Team
+`.trim(),
+
+    rejected: (applicant) => `
+Application Status Update
+
+Dear ${applicant.name},
+
+Thank you very much for applying for alumni membership.
+
+After completing our full verification process, we regret to inform you that we are unable to approve your application at this time.
+
+If you believe this decision was made in error, you may reply directly to this message and we will re-review your case.
+
+Thank you for your understanding.
+
+Regards
+Alumni Relations Team
+`.trim()
   };
 
-  const sendPaymentLink = async (alumni) => {
+  const handleStatusAction = async (applicant, action) => {
     try {
-      setLoadingId(alumni.id);
+      setLoadingId(applicant.id);
       setSuccessMessage("");
 
-      const phone = normalizePhoneNumber(alumni.mobile);
-      if (!phone) {
-        throw new Error("WhatsApp number not available");
+      const phone = normalizePhoneNumber(applicant.mobile);
+      if (!phone) throw new Error("No valid mobile number on record");
+
+      let updatedRecord;
+      if(action === "approved") {
+        // Auto generate permanent unique Alumni ID automatically on approval
+        const alumniId = generateAlumniId();
+        updatedRecord = updateAlumniStatus(applicant.id, "Approved", {
+          alumniId,
+          approvalDate: new Date().toISOString()
+        });
+      } else if(action === "rejected") {
+        updatedRecord = rejectAlumniApplication(applicant.id);
+      } else {
+        updatedRecord = updateAlumniStatus(applicant.id, "Under Verification");
       }
 
-      const message = getPaymentLinkMessage(alumni);
-      const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(
-        message
-      )}`;
-
+      // Generate and open WhatsApp pre-populated message
+      const message = messageTemplates[action](updatedRecord);
+      const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, "_blank");
 
-      const updated = markPaymentLinkSent(alumni.id);
+      // Refresh list to remove processed application
+      loadApplications();
 
-      setApprovedAlumni((prev) =>
-        prev.map((a) => (a.id === alumni.id ? updated : a))
-      );
+      setSuccessMessage(`✅ ${action} message successfully sent to ${applicant.name}`);
+      setTimeout(() => setSuccessMessage("", 5000));
 
-      setSuccessMessage(`Payment link sent to ${alumni.name}`);
-      setTimeout(() => setSuccessMessage(""), 4000);
     } catch (error) {
       console.error(error);
-      setSuccessMessage("Failed to send payment link");
-      setTimeout(() => setSuccessMessage(""), 4000);
+      setSuccessMessage(`❌ Error: ${error.message}`);
+      setTimeout(() => setSuccessMessage("", 5000));
     } finally {
       setLoadingId(null);
     }
   };
 
-  const getPaymentStatusBadge = (alumni) => {
-    if (alumni.paymentLinkSent) {
-      return <span className="payment-status-badge sent">Payment Sent</span>;
-    }
+  const getStatusBadge = (status) => {
+    const badgeClass = {
+      "Pending": "grey",
+      "Under Verification": "yellow",
+      "Approved": "green",
+      "Rejected": "red"
+    }[status] || "grey";
 
-    return <span className="payment-status-badge pending">Pending</span>;
+    return <span className={`status-badge ${badgeClass}`}>{status}</span>
   };
 
   return (
     <div className="approval-admin">
       <div className="dashboard-header">
         <div>
-          <h1>Approved Alumni</h1>
-          <p>Approved alumni list and payment link management</p>
+          <h1>Pending Applications</h1>
+          <p>Review and process new alumni registration requests</p>
         </div>
 
         <div className="header-actions">
-          <Link to="/admin" className="btn btn-secondary">
-            Back
+          <Link to="/admin/approved" className="btn btn-outline">
+            View Approved Alumni
           </Link>
-
-          <button onClick={loadApprovedAlumni} className="btn btn-outline">
-            Refresh
+          <button onClick={loadApplications} className="btn btn-outline">
+            🔄 Refresh List
           </button>
         </div>
       </div>
@@ -132,66 +180,57 @@ Alumni Relations Team`;
         <table className="alumni-table">
           <thead>
             <tr>
-              <th>Alumni ID</th>
               <th>Name</th>
               <th>Email</th>
               <th>Mobile</th>
               <th>Course</th>
               <th>Batch</th>
-              <th>College</th>
-              <th>Approval Date</th>
-              <th>Payment Status</th>
+              <th>Applied Date</th>
+              <th>Current Status</th>
               <th>Action</th>
             </tr>
           </thead>
-
           <tbody>
-            {approvedAlumni.length === 0 ? (
+            {applications.length === 0 ? (
               <tr>
-                <td colSpan="10" className="no-data">
-                  No approved alumni found
+                <td colSpan={8} className="no-data">
+                  ✅ No pending applications waiting for review
                 </td>
               </tr>
             ) : (
-              approvedAlumni.map((person) => (
-                <tr key={person.id}>
-                  <td>
-                    <strong>{person.alumniId}</strong>
-                  </td>
-
-                  {/* NAME ONLY (NO AVATAR) */}
-                  <td>{person.name}</td>
-
+              applications.map(person => (
+                <tr key={person.id} className={`row-status-${person.status.toLowerCase().replaceAll(" ", "-")}`}>
+                  <td><strong>{person.name}</strong></td>
                   <td>{person.email}</td>
                   <td>{person.mobile}</td>
                   <td>{person.course}</td>
                   <td>{person.batchYear}</td>
-                  <td>{person.college}</td>
-
+                  <td>{new Date(person.createdAt).toLocaleDateString("en-GB")}</td>
+                  <td>{getStatusBadge(person.status)}</td>
                   <td>
-                    {new Date(
-                      person.approvalDate || person.updatedAt
-                    ).toLocaleDateString("en-GB")}
-                  </td>
-
-                  <td>{getPaymentStatusBadge(person)}</td>
-
-                  <td>
-                    {person.paymentLinkSent ? (
-                      <button className="btn btn-success btn-sm" disabled>
-                        Sent
-                      </button>
-                    ) : (
+                    <div className="action-button-group">
                       <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() => sendPaymentLink(person)}
+                        className="btn btn-warning btn-xs"
+                        onClick={() => handleStatusAction(person, "verification")}
                         disabled={loadingId === person.id}
                       >
-                        {loadingId === person.id
-                          ? "Sending..."
-                          : "Send Payment"}
+                        Under Verification
                       </button>
-                    )}
+                      <button
+                        className="btn btn-success btn-xs"
+                        onClick={() => handleStatusAction(person, "approved")}
+                        disabled={loadingId === person.id}
+                      >
+                        Approve
+                      </button>
+                      <button
+                        className="btn btn-danger btn-xs"
+                        onClick={() => handleStatusAction(person, "rejected")}
+                        disabled={loadingId === person.id}
+                      >
+                        Reject
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

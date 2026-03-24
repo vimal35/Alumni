@@ -38,7 +38,9 @@ export const getApprovedAlumni = () => {
 
 export const getPendingAlumni = () => {
   const allRecords = getAllAlumniRecords();
-  return allRecords.filter(record => record.status === 'Under Verification');
+  return allRecords.filter(record => 
+    record.status === 'Pending' || record.status === 'Under Verification'
+  );
 };
 
 export const generateAlumniId = () => {
@@ -72,8 +74,6 @@ export const markPaymentLinkSent = (id) => {
   return updatedRecords.find(record => record.id === id);
 };
 
-// utils/localStorage.js (add this function)
-
 export const saveDonation = (donation) => {
   const existing = JSON.parse(localStorage.getItem("donations") || "[]");
   existing.push({ ...donation, status: "Success" });
@@ -83,4 +83,9 @@ export const saveDonation = (donation) => {
 
 export const getAllDonations = () => {
   return JSON.parse(localStorage.getItem("donations") || "[]");
+};
+
+// ✅ New function added fully compatible with existing system
+export const rejectAlumniApplication = (id) => {
+  return updateAlumniStatus(id, "Rejected");
 };

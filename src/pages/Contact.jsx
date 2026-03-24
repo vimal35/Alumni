@@ -1,65 +1,94 @@
 import React from "react";
 import "./Contact.css";
 
-function Contact() {
+const Contact = () => {
   return (
     <div className="contact-page">
-      <h1>Contact Alumni Association</h1>
 
-      {/* Organization Info */}
-      <div className="org-info">
-        <h2>Organization Contact Information</h2>
-        <p><strong>Address:</strong> 123 Alumni Avenue, Knowledge City, India</p>
-        <p><strong>Phone:</strong> +91 98765 43210</p>
-        <p><strong>Email:</strong> info@alumniconnect.com</p>
+      {/* HERO SECTION */}
+      <div className="contact-hero">
+        <h1>Connect with CIT Alumni – Bangalore Chapter</h1>
+        <p>
+          We warmly welcome all CIT alumni to reconnect, collaborate, and grow
+          with the Bangalore Chapter. Whether you’re looking to engage with
+          fellow alumni, participate in events, or explore new opportunities,
+          we’re here to support your journey.
+        </p>
       </div>
 
-      {/* Google Map */}
-      <div className="map-container">
-        <iframe
-          title="map"
-          src="https://www.google.com/maps/embed?pb=!1m18..."
-          width="100%"
-          height="350"
-          style={{ border: 0 }}
-          allowFullScreen=""
-          loading="lazy"
-        ></iframe>
-      </div>
+      {/* MAIN SECTION */}
+      <div className="contact-container">
 
-      {/* Social Media */}
-      <div className="social-buttons">
-        <a href="#">Facebook</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Twitter</a>
-        <a href="#">Instagram</a>
-      </div>
+        {/* LEFT INFO */}
+        <div className="contact-info">
+          <h2>Get in Touch</h2>
+          <p>
+            We encourage you to reach out for any queries, collaborations, or
+            community involvement. Our team is always ready to assist and guide
+            you in staying connected with the CIT alumni network.
+          </p>
 
-      {/* Contact Persons */}
-      <div className="contact-persons">
-        <div className="person-card">
-          <h3>Mr. Rajesh Kumar</h3>
-          <p>President</p>
-          <p>📞 +91 90000 11111</p>
-          <p>✉ rajesh@alumniconnect.com</p>
+          <div className="info-box">
+            <h4>Organization</h4>
+            <p>CIT Alumni Bangalore Chapter</p>
+          </div>
+
+          <div className="info-box">
+            <h4>Location</h4>
+            <p>Bangalore, Tamil Nadu, India</p>
+          </div>
+
+          <div className="info-box">
+            <h4>Email</h4>
+            <p>alumni@citcommunity.org</p>
+          </div>
+
+          <div className="info-box">
+            <h4>Phone</h4>
+            <p>+91 XXXXX XXXXX</p>
+          </div>
+
+          {/* SOCIAL MEDIA */}
+          <div className="social-icons">
+            <a href="#"><i className="fab fa-facebook-f"></i></a>
+            <a href="#"><i className="fab fa-instagram"></i></a>
+            <a href="#"><i className="fab fa-linkedin-in"></i></a>
+            <a href="#"><i className="fab fa-twitter"></i></a>
+          </div>
         </div>
 
-        <div className="person-card">
-          <h3>Ms. Ananya Singh</h3>
-          <p>Event Coordinator</p>
-          <p>📞 +91 90000 22222</p>
-          <p>✉ ananya@alumniconnect.com</p>
+        {/* RIGHT FORM */}
+        <div className="contact-form">
+          <h2>Send a Message</h2>
+
+          <form>
+            <div className="input-group">
+              <input type="text" required />
+              <label>Your Name</label>
+            </div>
+
+            <div className="input-group">
+              <input type="email" required />
+              <label>Email Address</label>
+            </div>
+
+            <div className="input-group">
+              <input type="text" required />
+              <label>Subject</label>
+            </div>
+
+            <div className="input-group">
+              <textarea rows="4" required></textarea>
+              <label>Your Message</label>
+            </div>
+
+            <button type="submit">Send Message</button>
+          </form>
         </div>
 
-        <div className="person-card">
-          <h3>Mr. Vikram Patel</h3>
-          <p>Membership Head</p>
-          <p>📞 +91 90000 33333</p>
-          <p>✉ vikram@alumniconnect.com</p>
-        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Contact;

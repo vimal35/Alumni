@@ -1,0 +1,63 @@
+.action-button-group {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-xs {
+  padding: 5px 9px;
+  font-size: 11px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 150ms;
+}
+
+.btn-xs:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.btn-xs:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.status-badge.grey { background: #e9ecef; color: #495057; }
+.status-badge.yellow { background: #fff3cd; color: #856404; }
+.status-badge.green { background: #d4edda; color: #155724; }
+.status-badge.red { background: #f8d7da; color: #721c24; }
+
+.payment-status-badge {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.payment-status-badge.sent { background: #d4edda; color: #155724; }
+.payment-status-badge.pending { background: #fff3cd; color: #856404; }
+
+/* Whole row color coding for quick visual scan */
+tr.row-status-pending { background-color: #f8f9fa; }
+tr.row-status-under-verification { background-color: #fffbeb; }
+tr.row-status-approved { background-color: #f0fff4; }
+tr.row-status-rejected { opacity: 0.6; background-color: #fff5f5; }
+
+.success-banner {
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  text-align: center;
+  background: #d4edda;
+  color: #155724;
+}
